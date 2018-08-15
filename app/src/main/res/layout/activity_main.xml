@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <EditText
+        android:id="@+id/searchfiled"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/black"
+        android:gravity="left|center_vertical"
+        android:background="@drawable/searchbg"
+        android:drawableRight="@drawable/ic_search"
+        android:paddingLeft="15dp"
+        android:paddingRight="30dp"
+        android:hint="Search"
+        android:inputType="text"
+        android:layout_marginBottom="5dp"
+        android:textColorHint="@color/textFilterColor"
+        android:textColor="@color/textFilterColor"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/searchfiled"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/listofResturent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginBottom="12dp"
+            android:clickable="true"
+            android:drawableRight="@drawable/down"
+            android:gravity="left"
+            android:maxLines="2"
+            android:padding="14dp"
+            android:text="List of restaurants"
+            android:textColor="@android:color/black"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list"
+        android:orientation="vertical"
+        >
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_profile_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>
