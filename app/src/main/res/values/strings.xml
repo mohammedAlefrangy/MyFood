@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MyFood</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="location">Location</string>
+    <string name="timeOfDelivery">Time Of Delivery</string>
+    <string name="paymentMethods">Payment Methods</string>
+    <string name="itemName">Item Name</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="addToCart">Add To Cart</string>
+    <string name="imgDesc">Item Image</string>
 </resources>
