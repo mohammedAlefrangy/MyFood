@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hmod_.myfood">
 
+    <uses-sdk
+        android:minSdkVersion="INSERT_YOUR_DESIRED_minSdkVersion_HERE"
+        tools:overrideLibrary="com.paypal.android.sdk.payments" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
-    <uses-sdk android:minSdkVersion="INSERT_YOUR_DESIRED_minSdkVersion_HERE" tools:overrideLibrary="com.paypal.android.sdk.payments"/>
 
     <!-- Location if you will use this -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -16,8 +20,11 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -33,12 +40,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsItemActivity"></activity>
-        <activity android:name=".DeliveryInfo"></activity>
+        <activity android:name=".DetailsItemActivity" />
+        <activity android:name=".DeliveryInfo" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDtmOEDNykLTfspUsVFWb4WdlTjxGfLnCc" />
+            android:value="AIzaSyBY5LY15092uWO_QpWGzllE0XtHpjjrp4k" />
 
         <!-- Enables the Google Pay API -->
         <meta-data
