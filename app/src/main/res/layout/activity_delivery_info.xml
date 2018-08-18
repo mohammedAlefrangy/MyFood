@@ -30,16 +30,18 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp" />
 
-    <TextView
+    <RadioButton
         android:id="@+id/paymentMethods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/paymentMethods"/>
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/payCash"/>
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_launcher"/>
+    <!--<ImageView-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:src="@drawable/ic_launcher"/>-->
 
     <Button
         android:layout_width="wrap_content"

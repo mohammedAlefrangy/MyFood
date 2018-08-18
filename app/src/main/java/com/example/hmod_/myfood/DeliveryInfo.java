@@ -2,21 +2,31 @@ package com.example.hmod_.myfood;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
@@ -35,14 +45,19 @@ import com.paypal.android.sdk.payments.ShippingAddress;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 public class DeliveryInfo extends AppCompatActivity implements OnMapReadyCallback {
     private static final LatLng TODO = null;
     private MapFragment map;
-    private static final String TAG = "paymentExample";
+    private GoogleMap googleMap;
+    Calendar lastTime = null;
+    private static final String TAG = DeliveryInfo.class.getSimpleName();
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
 
@@ -65,6 +80,14 @@ public class DeliveryInfo extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        mSharedPrefs = getSharedPreferences(Constants.DATASTREAM_PREFS, MODE_PRIVATE);
+//        if (!mSharedPrefs.contains(Constants.DATASTREAM_UUID)) {
+//            Intent toLogin = new Intent(this, LoginActivity.class);
+//            startActivity(toLogin);
+//            return;
+//        }
+
         setContentView(R.layout.activity_delivery_info);
 
         map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -83,10 +106,13 @@ public class DeliveryInfo extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng gaza = new LatLng(31.5, 34.4);
-        map.addMarker(new MarkerOptions().position(gaza).title("My location"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(gaza));
+        googleMap = map;
+//        LatLng gaza = new LatLng(31.5, 34.4);
+//        map.addMarker(new MarkerOptions().position(gaza).title("My location"));
+//        map.moveCamera(CameraUpdateFactory.newLatLng(gaza));
+
         getPermission();
+        initListener();
 
     }
 
@@ -95,6 +121,73 @@ public class DeliveryInfo extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 8);
             Log.d("TAG", "requesting");
         }
+    }
+
+    private void initListener() {
+
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates every seconds
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                Log.d(TAG,"onLocationChanged");
+                drawLocation(location);
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+// Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+    }
+
+    private void drawLocation(Location location) {
+        Log.d(TAG, "drawLocation");
+        Calendar currentTime = Calendar.getInstance();
+
+        if(shouldDrawNewLocation(currentTime)){
+            Log.d(TAG, "shouldDrawNewLocation");
+            LatLng me = new LatLng(location.getLatitude(), location.getLongitude());
+            googleMap.clear();
+            googleMap.addMarker(new MarkerOptions().position(me).title("Marker"));
+            CameraUpdate center = CameraUpdateFactory.newLatLng(me);
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+            googleMap.moveCamera(center);
+            googleMap.animateCamera(zoom);
+            lastTime = currentTime;
+        }
+
+
+
+    }
+
+    private boolean shouldDrawNewLocation(Calendar currentTime){
+        boolean isFirstUpdate = lastTime == null;
+        if (isFirstUpdate) {
+            return true;
+        }
+
+        Log.d(TAG, ""+currentTime.getTimeInMillis());
+        Log.d(TAG, ""+(lastTime.getTimeInMillis() + 5000L));
+        Log.d(TAG, ""+(currentTime.getTimeInMillis() > (lastTime.getTimeInMillis() + 5000L)));
+        return currentTime.getTimeInMillis() > (lastTime.getTimeInMillis() + 5000L);
+//        Log.d(TAG, lastTime.getTime().toString());
+//        lastTime.add(Calendar.SECOND, 5);
+//        Log.d(TAG, lastTime.getTime().toString());
+//        Log.d(TAG, currentTime.getTime().toString());
+//
+//        int result = lastTime.compareTo(currentTime);
+//        Log.d(TAG, ""+result);
+//        boolean isCurrentTimeGreater = result > 0;
+//        return isCurrentTimeGreater;
+
     }
 
     public void onBuyPressed(View pressed) {
