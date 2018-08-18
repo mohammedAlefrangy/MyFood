@@ -48,9 +48,10 @@
         <activity android:name=".DetailsItemActivity" />
         <activity android:name=".DeliveryInfo" />
 
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBY5LY15092uWO_QpWGzllE0XtHpjjrp4k" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.maps.v2.API_KEY"-->
+            <!--android:value="AIzaSyBY5LY15092uWO_QpWGzllE0XtHpjjrp4k" />-->
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBY5LY15092uWO_QpWGzllE0XtHpjjrp4k"/>
 
         <!-- Enables the Google Pay API -->
         <meta-data
